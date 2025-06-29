@@ -1,9 +1,13 @@
 import mongoose from "mongoose";
 
-try {
-  await mongoose.connect(
-    "mongodb+srv://kafianan:pW9nDBYwwUgHZCcP@cluster0.6ps4rub.mongodb.net/todo-app"
-  );
-} catch (error) {
-  handleError(error);
-}
+const connectDB = async () => {
+  try {
+    await mongoose.connect(`${process.env.DB_URL}`);
+    console.log("✅ MongoDB connected");
+  } catch (err) {
+    console.error("❌ DB connection error:", err);
+    process.exit(1);
+  }
+};
+
+export default connectDB;
