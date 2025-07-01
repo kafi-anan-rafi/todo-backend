@@ -1,40 +1,33 @@
 import mongoose from "mongoose";
 
-const Priority = {
-  LOW: "low",
-  MEDIUM: "medium",
-  HIGH: "high",
-};
+const todoSchema = new mongoose.Schema(
+  {
+    name: {
+      type: String,
+      required: true,
+    },
+    details: String,
+    isComplete: {
+      type: Boolean,
+      default: false,
+    },
+    dueDate: Date,
+    priority: {
+      type: String,
+      enum: ["low", "medium", "high"],
+      default: "low",
+    },
+    tags: [String],
 
-const todoSchema = new mongoose.Schema({
-  name: {
-    type: String,
-    required: true,
+    user: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "User",
+      required: true,
+    },
   },
-  details: {
-    type: String,
-    required: true,
-  },
-  isComplete: {
-    type: Boolean,
-    required: true,
-    default: false,
-  },
-  createdAt: {
-    type: Date,
-    default: Date.now,
-  },
-  updatedAt: Date,
-  dueDate: Date,
-  priority: {
-    type: String,
-    enum: Object.values(Priority),
-    default: Priority.LOW,
-  },
-  tags: {
-    type: [String],
-    default: [],
-  },
-});
+  {
+    timestamps: true,
+  }
+);
 
 export const Todo = mongoose.model("Todo", todoSchema);
