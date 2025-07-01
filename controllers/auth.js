@@ -18,7 +18,7 @@ export async function Register(req, res) {
       password: hashedPassword,
     });
     await newUser.save();
-    const token = generateToken({ id: newUser._id, email: newUser.email });
+    const token = generateToken({ _id: newUser._id, email: newUser.email });
 
     return res.status(201).json({
       message: "User registered!",
@@ -42,7 +42,7 @@ export async function Login(req, res) {
     if (!isMatch) {
       return res.status(401).json({ message: "Invalid credentials" });
     }
-    const token = generateToken({ id: user._id, email: user.email });
+    const token = generateToken({ _id: user._id, email: user.email });
     return res.status(200).json({ message: "User logged in!", token });
   } catch (err) {
     return res
