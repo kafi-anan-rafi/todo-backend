@@ -80,3 +80,40 @@ export async function getTodo(req, res) {
     return res.status(500).json({ message: "Failed to get todo" });
   }
 }
+
+export async function updateTodo(req, res) {
+  try {
+    const userId = req.user._id;
+    const todoId = req.params.id;
+
+    const todo = await Todo.findOne({ _id: todoId });
+
+    if (!todo) {
+      return res.status(404).json({ message: "Todo doesn't exists!" });
+    }
+
+    if (!todo.user.equals(userId)) {
+      return res
+        .status(403)
+        .json({ message: "You are not authorized to access this todo!" });
+    }
+
+    const updatedTodo = await Todo.findOneAndUpdate(
+      { _id: todoId },
+      {
+        $set: {
+          ...req.body,
+          updatedAt: new Date(),
+        },
+      },
+      { new: true }
+    );
+
+    return res
+      .status(200)
+      .json({ message: "odo updated successfully", todo: updatedTodo });
+  } catch (err) {
+    console.log(err);
+    return res.status(500).json({ message: "Failed to update todo!" });
+  }
+}

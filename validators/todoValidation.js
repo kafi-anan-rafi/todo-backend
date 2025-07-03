@@ -8,3 +8,12 @@ export const createTodoSchema = Joi.object({
   priority: Joi.string().valid("low", "medium", "high").default("low"),
   tags: Joi.array().items(Joi.string().trim()).unique(),
 });
+
+export const updateTodoSchema = Joi.object({
+  name: Joi.string().min(5).max(50),
+  details: Joi.string().min(5).max(500),
+  isComplete: Joi.boolean(),
+  dueDate: Joi.date(),
+  priority: Joi.string().valid("low", "medium", "high"),
+  tags: Joi.array().items(Joi.string().trim()).unique(),
+});
