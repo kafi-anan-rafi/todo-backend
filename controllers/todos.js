@@ -58,3 +58,25 @@ export async function getTodos(req, res) {
     return res.status(500).json({ message: "Failed to get todo" });
   }
 }
+
+export async function getTodo(req, res) {
+  try {
+    const todoId = req.params.id;
+    const userId = req.user._id;
+
+    const todo = await Todo.findOne({ _id: todoId });
+
+    if (!todo) {
+      return res.status(404).json({ message: "Todo doesn't exist!" });
+    }
+
+    if (!todo.user.equals(userId)) {
+      return res.status(403).json({ message: "Forbidden: Not your todo" });
+    }
+
+    return res.status(200).json(todo);
+  } catch (err) {
+    console.error(err);
+    return res.status(500).json({ message: "Failed to get todo" });
+  }
+}
