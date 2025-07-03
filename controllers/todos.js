@@ -41,3 +41,20 @@ export async function createTodo(req, res) {
       .json({ message: "Failed to create todo", error: err });
   }
 }
+
+export async function getTodos(req, res) {
+  try {
+    const userId = req.user._id;
+
+    const todos = await Todo.find({ user: userId });
+
+    if (!todos) {
+      return res.status(404).json({ message: "No todo exists!" });
+    }
+
+    return res.status(200).json(todos);
+  } catch (err) {
+    console.error(err);
+    return res.status(500).json({ message: "Failed to get todo" });
+  }
+}

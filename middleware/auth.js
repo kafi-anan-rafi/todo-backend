@@ -1,6 +1,6 @@
 import { verifyToken } from "../utils/token.js";
 
-export function authenticateUser(req, res, next) {
+export function auth(req, res, next) {
   const authHeader = req.headers.authorization;
 
   if (!authHeader || !authHeader.startsWith("Bearer ")) {
