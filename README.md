@@ -53,8 +53,6 @@ A simple RESTful API backend for a Todo application built with Node.js, Express,
 
 1. **Clone the repository:**
 
-   1. **Clone the repository:**
-
    ```sh
    git clone https://github.com/kafi-anan-rafi/todo-backend.git
    cd todo-backend
